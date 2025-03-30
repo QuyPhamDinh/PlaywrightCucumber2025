@@ -1,6 +1,7 @@
 import test, { expect } from "@playwright/test";
-import { User } from "../../model/user";
+
 import { RegistrationPage } from "./registrationPage";
+import { User } from "@model/user";
 
 test("Register and save authentication state", async ({ page }) => {
   await page.goto("https://parabank.parasoft.com/parabank/register.htm");
