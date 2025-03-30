@@ -1,0 +1,32 @@
+{
+  "name": "playwrightcucumber2025",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:bdd": "cucumber-js --require-module ts-node/register --require tests/support/world.ts --require tests/steps/**/*.ts tests/features/**/*.feature"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuyPhamDinh/PlaywrightCucumber2025.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QuyPhamDinh/PlaywrightCucumber2025/issues"
+  },
+  "homepage": "https://github.com/QuyPhamDinh/PlaywrightCucumber2025#readme",
+  "dependencies": {
+    "@cucumber/cucumber": "^11.2.0",
+    "@faker-js/faker": "^9.6.0",
+    "playwright": "^1.51.1",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/cucumber": "^6.0.1",
+    "@types/node": "^22.13.14",
+    "ts-node": "^10.9.2"
+  }
+}

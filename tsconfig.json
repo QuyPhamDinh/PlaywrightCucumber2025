@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ESNext",
+    "resolveJsonModule": true,
+    "strict": true,
+    "baseUrl": "./tests",
+    "paths": {
+      "@pom/*": ["pom/*"],
+      "@model/*": ["model/*"],
+      "@support/*": ["support/*"]
+    }
+  }
+}
