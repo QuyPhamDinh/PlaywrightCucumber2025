@@ -4,7 +4,7 @@ export class LeftPanel {
   readonly page: Page;
   readonly logoutLink: Locator;
 
-  constructor(page) {
+  constructor(page: Page) {
     this.page = page;
     this.logoutLink = this.page.locator("#leftPanel a[href='logout.htm']");
   }

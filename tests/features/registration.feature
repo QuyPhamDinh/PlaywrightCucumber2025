@@ -1,3 +1,4 @@
+@setup
 Feature: User Registration
 
   Scenario: Successful user registration

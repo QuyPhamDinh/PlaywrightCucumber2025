@@ -18,12 +18,12 @@
   },
   "homepage": "https://github.com/QuyPhamDinh/PlaywrightCucumber2025#readme",
   "dependencies": {
-    "@cucumber/cucumber": "^11.2.0",
     "@faker-js/faker": "^9.6.0",
     "playwright": "^1.51.1",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^11.2.0",
     "@playwright/test": "^1.51.1",
     "@types/cucumber": "^6.0.1",
     "@types/node": "^22.13.14",
