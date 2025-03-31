@@ -1,14 +1,15 @@
 import { Given, When, Then } from "@cucumber/cucumber";
 import { test, expect } from "@playwright/test";
-import { RegistrationPage } from "../pom/RegistrationPage";
+import { RegistrationPage } from "../pom/registrationPage";
 import { User } from "../model/user";
-import { page } from "../support/world";
+import { CustomWorld } from "../support/world";
 
 let registrationPage: RegistrationPage;
 let fakeUser: User;
-Given("I am on the registration page", async function () {
-  await page.goto("https://parabank.parasoft.com/parabank/register.htm"); // Replace with actual URL
-  registrationPage = new RegistrationPage(page);
+Given("I am on the registration page", async function (this: CustomWorld) {
+  await this.page.goto("https://parabank.parasoft.com/parabank/register.htm"); // Replace with actual URL
+  registrationPage = new RegistrationPage(this.page);
+  console.log("I am on the registration page");
 });
 
 When("I fill in the registration form with valid data", async function () {
@@ -20,7 +21,7 @@ When("I submit the form", async function () {
   await registrationPage.submit();
 });
 
-Then("I should see a success message", async function () {
+Then("I should see a success message", async function (this: CustomWorld) {
   const expectWelcomMessage = "Welcome " + fakeUser.username;
   expect
     .soft(await registrationPage.getWelcomeMessage())
@@ -28,4 +29,6 @@ Then("I should see a success message", async function () {
   expect(await registrationPage.getSuccessfulMessage()).toEqual(
     "Your account was created successfully. You are now logged in."
   );
+
+  await this.saveAuthState();
 });

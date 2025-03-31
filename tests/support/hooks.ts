@@ -1,14 +1,17 @@
-// import { Before, After } from "@cucumber/cucumber";
-// import { chromium } from "@playwright/test";
-// import { CustomWorld } from "./world";
+import { Before, After } from "@cucumber/cucumber";
+import { CustomWorld } from "./world";
 
-// Before(async function (this: CustomWorld) {
-//   const browser = await chromium.launch({ headless: false });
-//   this.context = await browser.newContext();
-//   this.page = await this.context.newPage();
-// });
+Before(async function (this: CustomWorld, { pickle }) {
+  const useAuth = pickle.tags.some((tag) => tag.name === "@login");
+  console.log("Before hook: Setting up browser...");
+  await this.setupBrowser(useAuth);
+});
 
-// After(async function (this: CustomWorld) {
-//   await this.page.close();
-//   await this.context.close();
-// });
+After(async function (this: CustomWorld) {
+  console.log("After hook: Closing browser...");
+  try {
+    await this.closeBrowser();
+  } catch (error) {
+    console.error("Error closing browser:", error);
+  }
+});

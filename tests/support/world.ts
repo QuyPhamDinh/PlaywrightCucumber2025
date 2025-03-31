@@ -1,31 +1,53 @@
-import { After, Before, setDefaultTimeout } from "@cucumber/cucumber";
-import { Browser, Page, chromium, firefox, webkit } from "@playwright/test";
-let page: Page;
-let browser: Browser;
-setDefaultTimeout(60000);
-Before(async () => {
-  const browserType = process.env.BROWSER || "chromium"; // Default to Chromium
-  console.log(`Running tests on: ${browserType}`);
-  const headless = process.env.HEADLESS === "true";
+import { IWorldOptions, setWorldConstructor, World } from "@cucumber/cucumber";
+import {
+  Browser,
+  BrowserContext,
+  Page,
+  chromium,
+  firefox,
+  webkit,
+} from "@playwright/test";
 
-  // Dynamically launch the selected browser
-  switch (browserType) {
-    case "firefox":
-      browser = await firefox.launch({ headless });
-      break;
-    case "webkit":
-      browser = await webkit.launch({ headless });
-      break;
-    case "chromium":
-    default:
-      browser = await chromium.launch({ headless });
-      break;
+export class CustomWorld extends World {
+  browser!: Browser;
+  context!: BrowserContext;
+  page!: Page;
+  constructor(options: IWorldOptions) {
+    super(options);
   }
 
-  const context = await browser.newContext();
-  page = await context.newPage();
-});
-After(async () => {
-  await browser.close();
-});
-export { page, browser };
+  async setupBrowser(useAuth = false) {
+    const browserType = process.env.BROWSER || "chromium"; // Default to Chromium
+    console.log(`Running tests on: ${browserType}`);
+    const headless = process.env.HEADLESS === "true";
+
+    // Dynamically launch the selected browser
+    switch (browserType) {
+      case "firefox":
+        this.browser = await firefox.launch({ headless });
+        break;
+      case "webkit":
+        this.browser = await webkit.launch({ headless });
+        break;
+      case "chromium":
+      default:
+        this.browser = await chromium.launch({ headless });
+        break;
+    }
+
+    // this.context = await this.browser.newContext();
+    this.context = await this.browser.newContext({
+      storageState: useAuth ? "tests/testData/auth.json" : undefined, // Load auth only when needed
+    });
+    this.page = await this.context.newPage();
+  }
+
+  async saveAuthState() {
+    await this.context.storageState({ path: "tests/testData/auth.json" }); // Save authentication state
+  }
+
+  async closeBrowser() {
+    await this.browser.close();
+  }
+}
+setWorldConstructor(CustomWorld);
